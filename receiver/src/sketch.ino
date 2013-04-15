@@ -30,11 +30,8 @@ void loop()
     // Message with a good checksum received, dump it.
     Serial.print("Got: ");
 
-    for (i = 0; i < buflen; i++)
-    {
-      Serial.print(buf[i], HEX);
-      Serial.print(" ");
-    }
+    buf[buflen] = 0;
+    Serial.print((char*)buf);
     Serial.println("");
     digitalWrite(13, false);
   }
