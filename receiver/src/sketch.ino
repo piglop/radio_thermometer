@@ -19,9 +19,6 @@ void setup()
   vw_set_rx_pin(11);
   vw_rx_start();     // Start the receiver PLL running
 }
-
-int count = 0;
-
 void loop()
 {
   uint8_t buf[VW_MAX_MESSAGE_LEN];
@@ -41,15 +38,4 @@ void loop()
     Serial.println("");
     digitalWrite(13, false);
   }
-  
-  count++;
-  
-  if (count >= 100)
-  {
-    count = 0;
-    Serial.print("Len: ");
-    Serial.print(vw_get_rx_len());
-    Serial.println();
-  }
-  delay(10);
 }

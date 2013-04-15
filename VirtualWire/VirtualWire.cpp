@@ -555,11 +555,6 @@ uint8_t vw_get_message(uint8_t* buf, uint8_t* len)
     return (vw_crc(vw_rx_buf, vw_rx_len) == 0xf0b8); // FCS OK?
 }
 
-uint8_t vw_get_rx_len() {
-    return vw_rx_len;
-}
-
-
 // This is the interrupt service routine called when timer1 overflows
 // Its job is to output the next bit from the transmitter (every 8 calls)
 // and to call the PLL code if the receiver is enabled
