@@ -274,6 +274,8 @@ extern "C"
     /// \param[in,out] len Available space in buf. Will be set to the actual number of octets read
     /// \return true if there was a message and the checksum was good
     extern uint8_t vw_get_message(uint8_t* buf, uint8_t* len);
+    
+    extern uint8_t vw_get_rx_len();
 }
 
 /// @example client.pde
