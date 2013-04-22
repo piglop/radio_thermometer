@@ -13,12 +13,16 @@ void setup()
   Serial.begin(115200); // Debugging only
   Serial.println("setup");
   pinMode(11, INPUT);
+  pinMode(13, OUTPUT);
   // Initialise the IO and ISR
   vw_set_ptt_inverted(true); // Required for DR3100
   vw_setup(2000);    // Bits per sec
   vw_set_rx_pin(11);
   vw_rx_start();     // Start the receiver PLL running
 }
+
+unsigned long led_start = 0;
+
 void loop()
 {
   uint8_t buf[VW_MAX_MESSAGE_LEN];
@@ -26,13 +30,15 @@ void loop()
   if (vw_get_message(buf, &buflen)) // Non-blocking
   {
     int i;
-    digitalWrite(13, true); // Flash a light to show received good message
-    // Message with a good checksum received, dump it.
-    Serial.print("Got: ");
-
+    digitalWrite(13, HIGH);
+    led_start = millis();
     buf[buflen] = 0;
     Serial.print((char*)buf);
     Serial.println("");
-    digitalWrite(13, false);
+  }
+  
+  if (led_start && millis() > led_start + 100) {
+    led_start = 0;
+    digitalWrite(13, LOW);
   }
 }
