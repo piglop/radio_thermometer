@@ -92,13 +92,13 @@ void loop(void) {
       delay(1000);
       return;
   }
-/*
+  /*
   Serial.print("R=");
   for( i = 0; i < 8; i++) {
     Serial.print(addr[i], HEX);
     Serial.print(" ");
   }
-*/
+  */
   if ( OneWire::crc8( addr, 7) != addr[7]) {
       Serial.print("CRC is not valid!\n");
       return;
@@ -143,23 +143,39 @@ void loop(void) {
 */
   int low = data[0];
   int high = data[1];
+  /*
   float temp = (float)((high << 8) | low) / 16.0;
 
   Serial.print("TEMP=");
   Serial.print(temp);
   Serial.println();
+  */
 
-  char msg[16];
-  floatToString(msg, temp, 2, 5);
+  unsigned char msg[16];
+  int len = 0;
 
+  msg[0] = 'T';
+  len = 1;
+  for(i = 0; i < 8; i++) {
+    msg[len++] = addr[i];
+  }
+  for(i = 0; i < 2; i++) {
+    msg[len++] = data[i];
+  }
+  
+  /*
   Serial.print("MSG=");
-  Serial.print(msg);
+  for( i = 0; i < len; i++) {
+    Serial.print(msg[i], HEX);
+    Serial.print(" ");
+  }
   Serial.println();
+  */
 
 
   digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-  vw_send((uint8_t *)msg, strlen(msg));
+  vw_send((uint8_t *)msg, len);
   vw_wait_tx(); // Wait until the whole message is gone
-  delay(200);
+  delay(100);
   digitalWrite(13, LOW);   // turn the LED on (HIGH is the voltage level)
 }
