@@ -32,8 +32,10 @@ void loop()
     int i;
     digitalWrite(13, HIGH);
     led_start = millis();
-    buf[buflen] = 0;
-    Serial.print((char*)buf);
+    for( i = 0; i < buflen; i++) {
+        Serial.print(buf[i], HEX);
+        Serial.print(" ");
+    }
     Serial.println("");
   }
   
