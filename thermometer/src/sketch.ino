@@ -2,14 +2,15 @@
 #include <VirtualWire.h>
 
 // DS18S20 Temperature chip i/o
-OneWire ds(10);  // on pin 10
+OneWire ds(2);
 
 void setup(void) {
   // initialize inputs/outputs
   // start serial port
   Serial.begin(115200);
-  pinMode(13, OUTPUT);     
+  pinMode(0, OUTPUT);     
 
+  vw_set_tx_pin(5);
   // Initialise the IO and ISR
   vw_set_ptt_inverted(true); // Required for DR3100
   vw_setup(2000);      // Bits per sec
