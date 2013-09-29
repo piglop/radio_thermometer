@@ -13,8 +13,7 @@ void loop()
   digitalWrite(1, HIGH);
   DigiUSB.refresh();
   DigiUSB.println("Hello");
-  delay(250);
   digitalWrite(0, LOW);    // turn the LED off by making the voltage LOW
   digitalWrite(1, LOW); 
-  delay(250);
+  DigiUSB.delay(1000);
 }
