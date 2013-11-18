@@ -11,7 +11,7 @@ void setup(void) {
   pinMode(0, OUTPUT);     
   pinMode(13, OUTPUT);     
 
-  vw_set_tx_pin(12);
+  vw_set_tx_pin(5);
   // Initialise the IO and ISR
   vw_set_ptt_inverted(true); // Required for DR3100
   vw_setup(2000);      // Bits per sec
