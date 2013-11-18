@@ -1,4 +1,24 @@
 #include <VirtualWire.h>
+#include <Wire.h>
+
+#define SLAVE_ADDRESS 0x12
+int dataReceived = 0;
+
+#define OUTPUT_BUFFER_SIZE 256
+unsigned char output_buffer[OUTPUT_BUFFER_SIZE];
+int output_buffer_start = 0;
+int output_buffer_length = 0;
+
+void send_data()
+{
+  if (output_buffer_length > 0) {
+    Wire.write(output_buffer[output_buffer_start]);
+    output_buffer_start++;
+    if (output_buffer_start >= OUTPUT_BUFFER_SIZE)
+      output_buffer_start = 0;
+    output_buffer_length--;
+  }
+}
 
 void setup()
 {
@@ -11,6 +31,9 @@ void setup()
   vw_setup(2000);    // Bits per sec
   vw_set_rx_pin(11);
   vw_rx_start();     // Start the receiver PLL running
+
+  Wire.begin(SLAVE_ADDRESS);
+  Wire.onRequest(send_data);
 }
 
 unsigned long led_start = 0;
@@ -28,6 +51,8 @@ void loop()
     for( i = 0; i < buflen; i++) {
         Serial.print(buf[i], HEX);
         Serial.print(" ");
+        output_buffer[(output_buffer_start + output_buffer_length) % OUTPUT_BUFFER_SIZE] = buf[i];
+        output_buffer_length++;
     }
     Serial.println("");
   }
