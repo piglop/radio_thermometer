@@ -9,8 +9,9 @@ void setup(void) {
   // start serial port
   Serial.begin(115200);
   pinMode(0, OUTPUT);     
+  pinMode(13, OUTPUT);     
 
-  vw_set_tx_pin(5);
+  vw_set_tx_pin(12);
   // Initialise the IO and ISR
   vw_set_ptt_inverted(true); // Required for DR3100
   vw_setup(2000);      // Bits per sec
@@ -21,9 +22,20 @@ void loop(void) {
   byte present = 0;
   byte data[12];
   byte addr[8];
+  unsigned char msg[16];
+  int len = 0;
+
 
   if ( !ds.search(addr)) {
+      Serial.println("No sensor found");
       ds.reset_search();
+      msg[0] = 'T';
+      msg[1] = '-';
+      len = 2;
+      digitalWrite(13, HIGH);
+      vw_send((uint8_t *)msg, len);
+      vw_wait_tx();
+      digitalWrite(13, LOW);
       delay(1000);
       return;
   }
@@ -50,9 +62,6 @@ void loop(void) {
   
   int low = data[0];
   int high = data[1];
-
-  unsigned char msg[16];
-  int len = 0;
 
   msg[0] = 'T';
   len = 1;
