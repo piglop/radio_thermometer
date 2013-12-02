@@ -1,0 +1,5 @@
+export PYTHONPATH=~/devel/ino/:~/devel/ino/ino/
+export PATH=~/devel/ino/bin:/opt/digispark-ino/bin/:$PATH
+echo "remove .build directory to clear cache and run:"
+echo "ino build -d /opt/DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/ && ino upload -d /opt/DigisparkArduino-Linux32/Digispark-Arduino-1.0.4/"
+
